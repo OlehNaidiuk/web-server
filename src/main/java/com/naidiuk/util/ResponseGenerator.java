@@ -7,14 +7,16 @@ import java.nio.file.Path;
 public class ResponseGenerator {
     private String statusLine;
     private String contentLength;
-    private byte[] body;
+    private String body;
 
     public String getStatusLine() {
         return statusLine;
     }
 
     public void setStatusLine(RequestHandler requestHandler, ServerFiles serverFiles) {
-        statusLine = requestHandler.getProtocolVersion() + " " + serverFiles.getStatusCode().getTitle();
+        statusLine = requestHandler.getProtocolVersion()
+                + " "
+                + serverFiles.getStatusCode().getTitle();
     }
 
     public String getContentLength() {
@@ -22,27 +24,27 @@ public class ResponseGenerator {
     }
 
     public void setContentLength(ServerFiles serverFiles) {
-        int charsCounter = 0;
-        try (BufferedReader reader = Files.newBufferedReader(Path.of(serverFiles.getFilePath()))){
-            while (reader.ready()) {
-                String line = reader.readLine();
-                charsCounter += line.length();
+        int content = 0;
+        try (InputStream inputStream = Files.newInputStream(Path.of(serverFiles.getFilePath()))){
+            while (inputStream.available() > 0) {
+                byte[] bytes = inputStream.readAllBytes();
+                content = bytes.length;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        contentLength = "Content-Length: " + charsCounter;
+        contentLength = "Content-Length: " + content;
     }
 
-    public byte[] getBody() {
+    public String getBody() {
         return body;
     }
 
     public void setBody(ServerFiles serverFiles) {
         try (InputStream in = Files.newInputStream(Path.of(serverFiles.getFilePath()))) {
-            body = new byte[10240];
             while (in.available() > 0) {
-                body = in.readAllBytes();
+                byte[] bytes = in.readAllBytes();
+                body = new String(bytes);
             }
         } catch (IOException e) {
             e.printStackTrace();
