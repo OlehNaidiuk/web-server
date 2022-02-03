@@ -11,23 +11,20 @@ import java.util.Map;
 public class RequestParser {
     public Request parseRequest(BufferedReader serverInput) {
         Request request = new Request();
-        Map<String, String> headers = new HashMap<>();
-        String startLine = "";
-        String line;
         try {
-            startLine = serverInput.readLine();
-            while (!(line = serverInput.readLine()).equals("")) {
-                String[] keyValue = line.split(":", 2);
+            String[] startLineParts = serverInput.readLine().split(" ");
+            Map<String, String> headers = new HashMap<>();
+            while (!(serverInput.readLine().equals(""))) {
+                String[] keyValue = serverInput.readLine().split(":", 2);
                 headers.put(keyValue[0], keyValue[1]);
             }
+            request.setHttpMethod(HttpMethod.valueOf(startLineParts[0]));
+            request.setUri(startLineParts[1]);
+            request.setHttpProtocolVersion(startLineParts[2]);
+            request.setHeaders(headers);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Can't read request");
         }
-        String[] startLineParts = startLine.split(" ");
-        request.setHttpMethod(HttpMethod.valueOf(startLineParts[0]));
-        request.setUri(startLineParts[1]);
-        request.setHttpProtocolVersion(startLineParts[2]);
-        request.setHeaders(headers);
         return request;
     }
 }
