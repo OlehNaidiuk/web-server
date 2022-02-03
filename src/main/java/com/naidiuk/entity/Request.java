@@ -1,48 +1,42 @@
 package com.naidiuk.entity;
 
-import com.naidiuk.util.RequestParser;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class Request {
-    private String request;
-    private final RequestParser requestParser = new RequestParser();
+    private HttpMethod httpMethod;
+    private String uri;
+    private String httpProtocolVersion;
+    private Map<String, String> headers;
 
-    public void setRequest(String request) {
-        this.request = request;
+    public void setHttpMethod(HttpMethod httpMethod) {
+        this.httpMethod = httpMethod;
     }
 
-    public String getRequest() {
-        return request;
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public void setHttpProtocolVersion(String httpProtocolVersion) {
+        this.httpProtocolVersion = httpProtocolVersion;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 
     public HttpMethod getHttpMethod() {
-        String[] startLine = requestParser.parseStartLine(request);
-        if (startLine[0].equals("GET") || startLine[0].equals("PUT") || startLine[0].equals("POST")) {
-            return HttpMethod.valueOf(startLine[0]);
-        } else {
-            throw new EnumConstantNotPresentException(HttpMethod.class, "Enum constant not present");
-        }
+        return httpMethod;
     }
 
     public String getUri() {
-        String[] startLine = requestParser.parseStartLine(request);
-        return startLine[1];
+        return uri;
     }
 
-    public String getProtocolVersion() {
-        String[] startLine = requestParser.parseStartLine(request);
-        return startLine[2];
+    public String getHttpProtocolVersion() {
+        return httpProtocolVersion;
     }
 
     public Map<String, String> getHeaders() {
-        String[] requestLines = requestParser.parseRequest(request);
-        Map<String, String> headers = new HashMap<>();
-        for (int i = 1; i < requestLines.length; i++) {
-            String[] keyValue = requestLines[i].split(":", 2);
-            headers.put(keyValue[0], keyValue[1]);
-        }
         return headers;
     }
 }

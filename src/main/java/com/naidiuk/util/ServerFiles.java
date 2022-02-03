@@ -1,13 +1,15 @@
 package com.naidiuk.util;
 
+import com.naidiuk.entity.Request;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ServerFiles {
-    private static final String DIRECTORY = "resources";
+    private static final String DIRECTORY = "src/main/resources";
 
-    public static String getPage(String uri) {
-        String pathToPage = DIRECTORY + uri;
+    public static String getPage(Request request) {
+        String pathToPage = DIRECTORY + request.getUri();
         if (Files.exists(Path.of(pathToPage))) {
             return pathToPage;
         }

@@ -4,19 +4,16 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class WebServer {
 
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(8080)) {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
-                     BufferedReader serverIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                     OutputStream serverOut = clientSocket.getOutputStream()) {
-                    while (!serverIn.ready());
-                    System.out.println();
-                    ServerService serverService = new ServerService();
-                    serverService.readClientRequest(serverIn);
-                    serverService.sendServerResponse(serverOut);
+                     BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                     BufferedOutputStream serverOutput = new BufferedOutputStream(clientSocket.getOutputStream())) {
+                    ClientHandler clientHandler = new ClientHandler(serverInput, serverOutput);
+                    clientHandler.sendServerResponse();
                 } catch (IOException e) {
                     throw new RuntimeException("Failed to connect");
                 }

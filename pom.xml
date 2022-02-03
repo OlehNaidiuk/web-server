@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.naidiuk</groupId>
-    <artifactId>web-server</artifactId>
+    <artifactId>web-webServer</artifactId>
     <version>1</version>
 
     <properties>

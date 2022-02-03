@@ -1,10 +1,10 @@
 package com.naidiuk;
 
-import com.naidiuk.service.Server;
+import com.naidiuk.service.WebServer;
 
 public class Start {
     public static void main(String[] args) {
-        Server server = new Server();
-        server.start();
+        WebServer webServer = new WebServer();
+        webServer.start();
     }
 }
