@@ -1,13 +1,13 @@
 package com.naidiuk.entity;
 
-public enum HTTPMethod {
+public enum HttpMethod {
     GET("GET"),
     POST("POST"),
     PUT("PUT");
 
     private final String title;
 
-    HTTPMethod(String title) {
+    HttpMethod(String title) {
         this.title = title;
     }
 

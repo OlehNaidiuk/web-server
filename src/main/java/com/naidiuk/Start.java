@@ -1,8 +1,8 @@
 package com.naidiuk;
 
-import com.naidiuk.entity.Server;
+import com.naidiuk.service.Server;
 
-public class Test {
+public class Start {
     public static void main(String[] args) {
         Server server = new Server();
         server.start();
