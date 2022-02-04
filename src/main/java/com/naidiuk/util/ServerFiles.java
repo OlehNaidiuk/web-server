@@ -10,7 +10,7 @@ public class ServerFiles {
 
     public static String getPage(Request request) {
         String pathToPage = DIRECTORY + request.getUri();
-        if (Files.exists(Path.of(pathToPage))) {
+        if (Files.isRegularFile(Path.of(pathToPage))) {
             return pathToPage;
         }
         return DIRECTORY + "/404.html";

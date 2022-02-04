@@ -15,14 +15,10 @@ public class ClientHandler {
         this.serverOutput = serverOutput;
     }
 
-    public void sendServerResponse() {
+    public void sendResponse() {
         ResponseWriter responseWriter = new ResponseWriter();
-        Request request = createRequest();
-        responseWriter.writeResponse(serverOutput, request);
-    }
-
-    private Request createRequest() {
         RequestParser requestParser = new RequestParser();
-        return requestParser.parseRequest(serverInput);
+        Request request = requestParser.parseRequest(serverInput);
+        responseWriter.writeResponse(serverOutput, request);
     }
 }

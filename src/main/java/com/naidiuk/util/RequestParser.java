@@ -13,7 +13,7 @@ public class RequestParser {
         Request request = new Request();
         try {
             String[] startLineParts = serverInput.readLine().split(" ");
-            Map<String, String> headers = new HashMap<>();
+            Map<String, String> headers = new HashMap<>(30);
             String line;
             while (!(line = serverInput.readLine()).equals("")) {
                 String[] keyValue = line.split(":", 2);

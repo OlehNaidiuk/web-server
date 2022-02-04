@@ -13,7 +13,7 @@ public class WebServer {
                      BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                      BufferedOutputStream serverOutput = new BufferedOutputStream(clientSocket.getOutputStream())) {
                     ClientHandler clientHandler = new ClientHandler(serverInput, serverOutput);
-                    clientHandler.sendServerResponse();
+                    clientHandler.sendResponse();
                 } catch (IOException e) {
                     throw new RuntimeException("Failed to connect");
                 }
