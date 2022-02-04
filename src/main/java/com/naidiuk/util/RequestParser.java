@@ -14,8 +14,9 @@ public class RequestParser {
         try {
             String[] startLineParts = serverInput.readLine().split(" ");
             Map<String, String> headers = new HashMap<>();
-            while (!(serverInput.readLine().equals(""))) {
-                String[] keyValue = serverInput.readLine().split(":", 2);
+            String line;
+            while (!(line = serverInput.readLine()).equals("")) {
+                String[] keyValue = line.split(":", 2);
                 headers.put(keyValue[0], keyValue[1]);
             }
             request.setHttpMethod(HttpMethod.valueOf(startLineParts[0]));
